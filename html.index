@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>joe</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
+font-family:Poppins,sans-serif;
+background:linear-gradient(270deg,#050010,#12001c,#000814);
+background-size:400% 400%;
+animation:bgMove 15s ease infinite;
+color:white;
+}
+
+@keyframes bgMove{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
+
+canvas{
+position:absolute;
+top:0;
+left:0;
+z-index:0;
+}
+
+.wrapper{
+position:relative;
+z-index:2;
+display:flex;
+align-items:center;
+gap:10px;
+font-size:2.6rem;
+letter-spacing:8px;
+transition:1s;
+}
+
+.wrapper.hide{
+opacity:0;
+transform:scale(.8);
+}
+
+.text{
+background:linear-gradient(90deg,#ff4da6,#ff80c0,#c77dff);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+transition:.4s;
+}
+
+.jump{
+animation:jump .4s ease;
+}
+
+@keyframes jump{
+0%{transform:translateY(0)}
+30%{transform:translateY(-12px)}
+60%{transform:translateY(4px)}
+100%{transform:translateY(0)}
+}
+
+.bar{
+width:3px;
+height:70px;
+background:linear-gradient(#ff4da6,#c77dff);
+box-shadow:0 0 20px #ff4da6;
+}
+
+.heart{
+position:absolute;
+font-size:6rem;
+color:#8B0000; 
+text-shadow:
+0 0 30px #8B0000,
+0 0 80px #5a0000,
+0 0 150px #2b0000;
+opacity:0;
+transform:scale(0);
+transition:transform 3s ease,opacity 1s ease;
+z-index:1;
+}
+
+.heart.show{
+opacity:1;
+transform:scale(35);
+}
+
+
+.message{
+position:absolute;
+text-align:center;
+font-family:"Great Vibes",cursive;
+font-size:3.2rem;
+opacity:0;
+background:linear-gradient(90deg,#ff80c0,#ffffff,#c77dff);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+z-index:3;
+}
+
+.message.show{
+opacity:1;
+}
+
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<div class="wrapper">
+<div class="bar"></div>
+<div class="text">i love you</div>
+<div class="bar"></div>
+</div>
+
+<div class="heart">❤</div>
+
+<div class="message">
+Happy Valantine Day 💖 I LOVE YOU misuuuuuuuuuuuuuuuuuu Stay With Me Forever
+</div>
+
+<script>
+
+const wrapper=document.querySelector('.wrapper');
+const text=document.querySelector('.text');
+const heart=document.querySelector('.heart');
+const message=document.querySelector('.message');
+
+const words=["i love you","i ♥ you","i ❤ U"];
+
+let index=0;
+let interval=setInterval(animate,1400);
+
+function animate(){
+
+text.style.letterSpacing="0px";
+
+setTimeout(()=>{
+
+index=(index+1)%words.length;
+text.textContent=words[index];
+text.classList.add("jump");
+
+setTimeout(()=>{
+text.classList.remove("jump");
+},400);
+
+if(words[index]==="i ❤ U"){
+
+clearInterval(interval);
+
+setTimeout(()=>{
+wrapper.classList.add("hide");
+},600);
+
+setTimeout(()=>{
+heart.classList.add("show");
+},1300);
+
+setTimeout(()=>{
+typeMessage();
+},4200);
+}
+
+},400);
+
+setTimeout(()=>{
+text.style.letterSpacing="8px";
+},800);
+
+}
+
+function typeMessage(){
+message.classList.add("show");
+const full=message.textContent;
+message.textContent="";
+let i=0;
+const typing=setInterval(()=>{
+message.textContent+=full[i];
+i++;
+if(i>=full.length)clearInterval(typing);
+},60);
+}
+
+
+const canvas=document.getElementById("particles");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let particles=[];
+
+for(let i=0;i<70;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+size:Math.random()*2+1,
+speed:Math.random()*1+0.3
+});
+}
+
+function animateParticles(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle="rgba(255,100,180,0.7)";
+particles.forEach(p=>{
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+ctx.fill();
+p.y-=p.speed;
+if(p.y<0)p.y=canvas.height;
+});
+requestAnimationFrame(animateParticles);
+}
+
+animateParticles();
+
+window.onresize=()=>{
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+};
+
+</script>
+</body>
+</html>
