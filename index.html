@@ -42,9 +42,10 @@ z-index:2;
 display:flex;
 align-items:center;
 gap:10px;
-font-size:2.6rem;
-letter-spacing:8px;
+font-size:clamp(1.2rem,6vw,2.6rem);
+letter-spacing:clamp(4px,2vw,8px);
 transition:1s;
+text-align:center;
 }
 
 .wrapper.hide{
@@ -72,14 +73,14 @@ animation:jump .4s ease;
 
 .bar{
 width:3px;
-height:70px;
+height:clamp(40px,8vw,70px);
 background:linear-gradient(#ff4da6,#c77dff);
 box-shadow:0 0 20px #ff4da6;
 }
 
 .heart{
 position:absolute;
-font-size:6rem;
+font-size:clamp(3rem,20vw,6rem);
 color:#8B0000; 
 text-shadow:
 0 0 30px #8B0000,
@@ -93,15 +94,18 @@ z-index:1;
 
 .heart.show{
 opacity:1;
-transform:scale(35);
+transform:scale(12);
 }
-
 
 .message{
 position:absolute;
+width:90%;
+max-width:700px;
+padding:20px;
 text-align:center;
 font-family:"Great Vibes",cursive;
-font-size:3.2rem;
+font-size:clamp(1.4rem,6vw,3.2rem);
+line-height:1.4;
 opacity:0;
 background:linear-gradient(90deg,#ff80c0,#ffffff,#c77dff);
 -webkit-background-clip:text;
@@ -112,7 +116,6 @@ z-index:3;
 .message.show{
 opacity:1;
 }
-
 </style>
 </head>
 <body>
@@ -128,7 +131,7 @@ opacity:1;
 <div class="heart">❤</div>
 
 <div class="message">
-Happy Valantine Day 💖 I LOVE YOU misuuuuuuuuuuuuuuuuuu Stay With Me Forever
+Happy Valentine Day 💖 I LOVE YOU misu Stay With Me Forever
 </div>
 
 <script>
@@ -194,11 +197,15 @@ if(i>=full.length)clearInterval(typing);
 },60);
 }
 
-
 const canvas=document.getElementById("particles");
 const ctx=canvas.getContext("2d");
+
+function resizeCanvas(){
 canvas.width=window.innerWidth;
 canvas.height=window.innerHeight;
+}
+window.addEventListener("resize",resizeCanvas);
+resizeCanvas();
 
 let particles=[];
 
@@ -225,11 +232,6 @@ requestAnimationFrame(animateParticles);
 }
 
 animateParticles();
-
-window.onresize=()=>{
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-};
 
 </script>
 </body>
